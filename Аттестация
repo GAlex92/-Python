@@ -1,0 +1,55 @@
+Задание 1
+В ячейке ниже представлен код генерирующий DataFrame, которая состоит всего из 1 столбца. Ваша задача перевести его в one hot вид.
+import random
+import pandas as pd
+
+lst = ['robot'] * 10
+lst += ['human'] * 10
+random.shuffle(lst)
+data = pd.DataFrame({'whoAmI': lst})
+one_hot = pd.get_dummies(data['whoAmI'])
+data = pd.concat([data, one_hot], axis=1)
+data.head()
+
+Задание 2
+Набор данных
+графики для столбцов "presence_deezer" (Присутствие на Deezer) и "charts_shazam" (Чарты Shazam):
+Присутствие на Deezer:
+import matplotlib.pyplot as plt
+# Группировка данных по столбцу "presence_deezer" и подсчет количества песен
+presence_deezer_counts = df['presence_deezer'].value_counts()
+# Создание столбчатой диаграммы
+plt.bar(presence_deezer_counts.index, presence_deezer_counts.values)
+plt.xlabel('Присутствие на Deezer')
+plt.ylabel('Количество песен')
+plt.title('Присутствие песен на Deezer')
+plt.show()
+
+Чарты Shazam:
+import matplotlib.pyplot as plt
+# Сортировка данных по столбцу "charts_shazam"
+shazam_chart_data = df.sort_values('charts_shazam')
+# Создание линейного графика
+plt.plot(shazam_chart_data.index, shazam_chart_data['charts_shazam'])
+plt.xlabel('Индекс песни')
+plt.ylabel('Позиция в чартах Shazam')
+plt.title('Популярность песен на Shazam')
+plt.show()
+
+Чтобы найти два признака с наибольшим количеством уникальных числовых значений в наборе данных, можно использовать следующий алгоритм:
+1. Подсчитать количество уникальных значений для каждого числового признака в наборе данных.
+2. Отсортировать признаки по убыванию количества уникальных значений.
+3. Выбрать два признака с наибольшим количеством уникальных значений.
+
+Вот оптимальный способ выполнения этой задачи:
+import pandas as pd
+# Подсчет количества уникальных значений для каждого числового признака
+numeric_features = df.select_dtypes(include='number')
+unique_counts = numeric_features.nunique()
+# Сортировка признаков по убыванию количества уникальных значений
+sorted_features = unique_counts.sort_values(ascending=False)
+# Выбор двух признаков с наибольшим количеством уникальных значений
+top_features = sorted_features.head(2)
+# Вывод результатов
+print("Два признака с наибольшим количеством уникальных значений:")
+print(top_features)
